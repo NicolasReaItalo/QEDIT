@@ -210,6 +210,9 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.e2_r2_lab_instruction = QtWidgets.QLabel("2_ Créer une ou plusieurs journées de tournage")
         self.e2_r3_btn_create_day = QtWidgets.QPushButton('Nouveau jour')
         self.e2_r3_btn_create_day.setMaximumWidth(150)
+        ## DEBUG
+        self.e2_r3_btn_create_day.clicked.connect(self.add_shooting_day)
+        ## DEBUG
         self.e2_r3_lw_days_created = QtWidgets.QListWidget()
         self.e2_r3_lw_days_created.setMaximumWidth(120)
         self.e2_r3_btn_remove_day = QtWidgets.QPushButton("Retirer")
@@ -254,6 +257,11 @@ class ProjectSetup(QtWidgets.QMainWindow):
             "                                                       _____________________________________________________________"))
 
 
+# Edit button
+        self.edit_btn =  QtWidgets.QPushButton("Editer le rapport")
+        self.edit_btn.clicked.connect(self.edit_report)
+
+        self.main_layout.addWidget(self.edit_btn)
 
 
 
@@ -269,6 +277,28 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.resize(800, 600)
 
 ### FUNCTIONS
+    def add_shooting_day(self):
+       if self.current_project.create_shooting_day(number=1,day= 1,month=12,year=2020):
+            self.refresh_day_list()
+
+    def refresh_day_list(self):
+        for item in self.current_project.shooting_days:
+            self.e2_r3_lw_days_created.addItem(f"{item['number']}:{item['day']}/{item['month']}/{item['year']}")
+
+
+
+    def edit_report(self):
+       #DEBUG
+        day = self.current_project.shooting_days[0]
+
+        for card in self.current_project.all_card_list:
+            day.get("cards").append(card)
+       #DEBUG
+
+        self.w = ReportWindow(current_project=self.current_project)
+        self.w.show()
+        self.close()
+
 
     def open_csv_path_window(self):
         f = QtWidgets.QFileDialog.getOpenFileUrl(self,"importer fichier","/Users/user/Desktop/","CSV files (*.csv)")
@@ -281,7 +311,7 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.e1_r1_lw_imported_csv.setCurrentRow(0)
 #DEBUG
         self.current_project.affichage_clips()
-
+#DEBUG
     def remove_csv(self):
         selected_item = self.e1_r1_lw_imported_csv.selectedItems()
         to_remove_index = []
