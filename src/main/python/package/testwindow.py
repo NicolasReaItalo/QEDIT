@@ -310,27 +310,20 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.e1_r1_lw_imported_csv.addItem(os.path.basename(path))
         self.e1_r1_lw_imported_csv.setCurrentRow(0)
 #DEBUG
-        self.current_project.affichage_clips()
+       # self.current_project.affichage_clips()
 #DEBUG
     def remove_csv(self):
         selected_item = self.e1_r1_lw_imported_csv.selectedItems()
-        to_remove_index = []
-        i = 0
-        print(f"longueur liste:{len(self.current_project.clip_list)}")
-        while i < len(self.current_project.clip_list):
-            if self.current_project.clip_list[i].csv == selected_item[0].text():
-                to_remove_index.append(i)
-
-            i += 1
-        print(to_remove_index)
-        for index in to_remove_index:
-            del self.current_project.clip_list[index]
-
-
-
-            # DEBUG
-        print("effacement")
+        if not selected_item:
+            return
+        csv_to_remove = selected_item[0].text()
+        i = len(self.current_project.clip_list) - 1
+        while i >= 0:
+            if self.current_project.clip_list[i].csv == csv_to_remove:
+                del self.current_project.clip_list[i]
+            i -= 1
         self.current_project.affichage_clips()
+        self.e1_r1_lw_imported_csv.takeItem(self.e1_r1_lw_imported_csv.row(selected_item[0]))
 
 
 

@@ -25,7 +25,5 @@
     <!-- Enable Retina support on OS X: -->
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
-    <key>NSRequiresAquaSystemAppearance</key>
-    <string>False</string>
 </dict>
 </plist>

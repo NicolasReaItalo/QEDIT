@@ -1,0 +1,39 @@
+
+
+Q EDIT
+
+#################################################################
+#
+#                               A FAIRE
+#
+#################################################################
+
+
+PAGE SETUP
+
+ (x) réparer la fonction remove_csv
+ () faire les fonction ajouter/retirer jours de tournage
+ () afficher les jours de tournages importés dans e2_r3_lw_days_created
+ () ajoute une fonction de verif dans le bouton Edit tant qu'il n'y a pas de journée de tournage ajoutée
+    on ne lance pas la fenêtre
+ () coder l'interface de répartition ds cartes par jour
+
+
+PAGE EDIT
+
+ () refactorer le header display pour l'instancier comme le clip list
+ ()réparer la text area day_comment
+ () ajouter un niveau d'alerte dans les clips qui s'affiche comme un fond rouge ( lier avec 'api)
+ () ajouter un menu d'exportation text/html/pdf
+
+
+API
+
+ () ajouter le niveau d'alerte dans la classe Clip ( 0,1,2)
+ ()  Classe Rapport : créer la fonction d'exportation texte/html/pdf
+
+
+
+
+
+

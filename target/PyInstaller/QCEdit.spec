@@ -3,13 +3,13 @@
 block_cipher = None
 
 
-a = Analysis(['/Users/user/Desktop/QCEdit/QCEdit_Prod/src/main/python/main.py'],
-             pathex=['/Users/user/Desktop/QCEdit/QCEdit_Prod/target/PyInstaller'],
+a = Analysis(['/Users/Yoko/PycharmProjects/QEDIT/src/main/python/main.py'],
+             pathex=['/Users/Yoko/PycharmProjects/QEDIT/target/PyInstaller'],
              binaries=[],
              datas=[],
              hiddenimports=[],
-             hookspath=['/Users/user/Desktop/QCEdit/TESTS_PYSIDE2/venv/lib/python3.6/site-packages/fbs/freeze/hooks'],
-             runtime_hooks=['/Users/user/Desktop/QCEdit/QCEdit_Prod/target/PyInstaller/fbs_pyinstaller_hook.py'],
+             hookspath=['/Users/Yoko/PycharmProjects/QEDIT/venv/lib/python3.6/site-packages/fbs/freeze/hooks'],
+             runtime_hooks=['/Users/Yoko/PycharmProjects/QEDIT/target/PyInstaller/fbs_pyinstaller_hook.py'],
              excludes=[],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
@@ -26,7 +26,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=False,
-          console=False , icon='/Users/user/Desktop/QCEdit/QCEdit_Prod/target/Icon.icns')
+          console=False , icon='/Users/Yoko/PycharmProjects/QEDIT/target/Icon.icns')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -36,5 +36,5 @@ coll = COLLECT(exe,
                name='QCEdit')
 app = BUNDLE(coll,
              name='QCEdit.app',
-             icon='/Users/user/Desktop/QCEdit/QCEdit_Prod/target/Icon.icns',
+             icon='/Users/Yoko/PycharmProjects/QEDIT/target/Icon.icns',
              bundle_identifier=None)
