@@ -208,6 +208,8 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
 ### ETAPE 2: row 2 et 3
         self.e2_r2_lab_instruction = QtWidgets.QLabel("2_ Créer une ou plusieurs journées de tournage")
+
+        self.e2_r3_cal_date_creation_calendar = QtWidgets.QCalendarWidget()
         self.e2_r3_btn_create_day = QtWidgets.QPushButton('Nouveau jour')
         self.e2_r3_btn_create_day.setMaximumWidth(150)
         ## DEBUG
@@ -220,6 +222,7 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
         self.r3_layout = QtWidgets.QHBoxLayout()
 
+        self.r3_layout.addWidget(self.e2_r3_cal_date_creation_calendar)
         self.r3_layout.addWidget(self.e2_r3_btn_create_day)
         self.r3_layout.addWidget(self.e2_r3_lw_days_created)
         self.r3_layout.addWidget(self.e2_r3_btn_remove_day)
@@ -278,6 +281,7 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
 ### FUNCTIONS
     def add_shooting_day(self):
+       # On récupère la date du calendrier
        if self.current_project.create_shooting_day(number=1,day= 1,month=12,year=2020):
             self.refresh_day_list()
 
@@ -288,6 +292,8 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
 
     def edit_report(self):
+        if not self.current_project.shooting_days:
+            return
        #DEBUG
         day = self.current_project.shooting_days[0]
 
@@ -322,7 +328,6 @@ class ProjectSetup(QtWidgets.QMainWindow):
             if self.current_project.clip_list[i].csv == csv_to_remove:
                 del self.current_project.clip_list[i]
             i -= 1
-        self.current_project.affichage_clips()
         self.e1_r1_lw_imported_csv.takeItem(self.e1_r1_lw_imported_csv.row(selected_item[0]))
 
 

@@ -13,8 +13,8 @@ PAGE SETUP
 
  (x) réparer la fonction remove_csv
  () faire les fonction ajouter/retirer jours de tournage
- () afficher les jours de tournages importés dans e2_r3_lw_days_created
- () ajoute une fonction de verif dans le bouton Edit tant qu'il n'y a pas de journée de tournage ajoutée
+ () afficher les jours de tournages créés dans e2_r3_lw_days_created
+ (x) ajoute une fonction de verif dans le bouton Edit tant qu'il n'y a pas de journée de tournage ajoutée
     on ne lance pas la fenêtre
  () coder l'interface de répartition ds cartes par jour
 
