@@ -278,7 +278,7 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
 ### FUNCTIONS
     def add_shooting_day(self):
-       if self.current_project.create_shooting_day(number=1,day= 1,month=12,year=2020):
+       if self.current_project.create_shooting_day(number=1,shooting_day= 1,month=12,year=2020):
             self.refresh_day_list()
 
     def refresh_day_list(self):
