@@ -243,14 +243,15 @@ class Rapport:
 
     ## shooting days operations
 
-    def create_shooting_day(self,number,shooting_day,month,year):
+    def create_shooting_day(self,number,day,month,year):
        # on verifie que ce numéro n'existe pas déjà
         for d in self.shooting_days:
             if d.get("number") == number:
                 return False
 
-        day = {"number":number,"day":shooting_day,"month":month,"year":year, "cards":[], "comment":""}
+        day = {"number":number,"day":day,"month":month,"year":year, "cards":[], "comment":""}
         self.shooting_days.append(day)
+        return True
 
     def delete_shooting_day(self, number):
         i = 0

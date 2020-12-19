@@ -4,7 +4,8 @@ from PySide2.QtWidgets import QMainWindow
 from fbs_runtime.application_context.PySide2 import ApplicationContext
 
 from  package.api2 import Clip, Rapport
-from package.testwindow import ReportWindow, StartUpWindow
+from package.StartupWindow import StartUpWindow
+
 
 #import qtmodern.styles
 #import qtmodern.windows
