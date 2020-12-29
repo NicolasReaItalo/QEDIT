@@ -1,2 +1,2 @@
 # QEDIT
-Simple Qualty check tool
+Simple Quality check tool
