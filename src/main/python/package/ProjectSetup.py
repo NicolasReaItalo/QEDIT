@@ -39,12 +39,19 @@ class ProjectSetup(QtWidgets.QMainWindow):
 ### ETAPE 2: row 2 et 3
         self.e2_r2_lab_instruction = QtWidgets.QLabel("2_ Créer une ou plusieurs journées de tournage")
 
-        self.e2_r3_cal_date_creation_calendar = QtWidgets.QCalendarWidget()
+        self.e2_r3_cal_date_creation_calendar = QtWidgets.QDateEdit()
+        self.e2_r3_cal_date_creation_calendar.setCalendarPopup(True)
         self.e2_r3_btn_create_day = QtWidgets.QPushButton('Nouveau jour')
         self.e2_r3_btn_create_day.setMaximumWidth(150)
-        ## DEBUG
+
+        self.e2_r3_day_number_selector = QtWidgets.QSpinBox()
+        self.e2_r3_day_number_selector.setMaximumWidth(55)
+        self.e2_r3_day_number_selector.setMinimum(0)
+        self.e2_r3_day_number_selector.setMaximum(999)
+
+
         self.e2_r3_btn_create_day.clicked.connect(self.add_shooting_day)
-        ## DEBUG
+
         self.e2_r3_lw_days_created = QtWidgets.QListWidget()
         self.e2_r3_lw_days_created.setMaximumWidth(120)
         self.e2_r3_btn_remove_day = QtWidgets.QPushButton("Retirer")
@@ -53,6 +60,7 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.r3_layout = QtWidgets.QHBoxLayout()
 
         self.r3_layout.addWidget(self.e2_r3_cal_date_creation_calendar)
+        self.r3_layout.addWidget(self.e2_r3_day_number_selector )
         self.r3_layout.addWidget(self.e2_r3_btn_create_day)
         self.r3_layout.addWidget(self.e2_r3_lw_days_created)
         self.r3_layout.addWidget(self.e2_r3_btn_remove_day)
@@ -112,10 +120,19 @@ class ProjectSetup(QtWidgets.QMainWindow):
 ### FUNCTIONS
     def add_shooting_day(self):
        # On récupère la date du calendrier
-       if self.current_project.create_shooting_day(number=1,day= 1,month=12,year=2020):
+       day = self.e2_r3_cal_date_creation_calendar.date().day()
+       month = self.e2_r3_cal_date_creation_calendar.date().month()
+       year = self.e2_r3_cal_date_creation_calendar.date().year()
+      # On récupère le numéro du jour de tournage
+       number = self.e2_r3_day_number_selector.value()
+
+
+
+       if self.current_project.create_shooting_day(number= number,day= day,month= month,year=year):
             self.refresh_day_list()
 
     def refresh_day_list(self):
+        self.e2_r3_lw_days_created.clear()
         for item in self.current_project.shooting_days:
             self.e2_r3_lw_days_created.addItem(f"{item['number']}:{item['day']}/{item['month']}/{item['year']}")
 

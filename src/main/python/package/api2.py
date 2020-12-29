@@ -23,8 +23,7 @@ class Clip:
         self.comment = "Pas encore vérifié"
         self.alert_level = 0 # 0: remarque / 1: Avertissement / 2: Alerte
         self.csv = csv
-        self.shooting_day = { "shooting_day_number": 0,
-                              "shooting_date": "00-00-2000"}
+
 
 
 
