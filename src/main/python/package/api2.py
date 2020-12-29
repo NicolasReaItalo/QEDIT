@@ -85,6 +85,7 @@ class Rapport:
         self.shooting_days = []
         self.clip_list = []
         self.all_card_list = []
+        self.available_cards_list = []
         self.csv_list = []
         self.codec_list = []
         self.qc_date = {"day":1,"month":1,"year":1999}
@@ -151,6 +152,7 @@ class Rapport:
             clip.temp_display_clip()
 
     def refresh_all_card_list(self):
+        self.all_card_list = []
         for clip in self.clip_list:
             if clip.card not in self.all_card_list:
                 self.all_card_list.append(clip.card)

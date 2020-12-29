@@ -12,11 +12,11 @@ Q EDIT
 PAGE SETUP
 
  (x) réparer la fonction remove_csv
- () faire les fonction ajouter/retirer jours de tournage
- () afficher les jours de tournages créés dans e2_r3_lw_days_created
+ (x) faire les fonction ajouter/retirer jours de tournage
+ (x) afficher les jours de tournages créés dans e2_r3_lw_days_created
  (x) ajoute une fonction de verif dans le bouton Edit tant qu'il n'y a pas de journée de tournage ajoutée
     on ne lance pas la fenêtre
- () coder l'interface de répartition ds cartes par jour
+ () coder l'interface de répartition ds cartes par jour  - il faut finir le bouton <-
 
 
 PAGE EDIT

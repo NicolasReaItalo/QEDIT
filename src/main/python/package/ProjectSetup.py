@@ -54,8 +54,11 @@ class ProjectSetup(QtWidgets.QMainWindow):
 
         self.e2_r3_lw_days_created = QtWidgets.QListWidget()
         self.e2_r3_lw_days_created.setMaximumWidth(120)
+        self.e2_r3_lw_days_created.itemSelectionChanged.connect(self.refresh_card_menu)
+
         self.e2_r3_btn_remove_day = QtWidgets.QPushButton("Retirer")
         self.e2_r3_btn_remove_day.setMaximumWidth(150)
+        self.e2_r3_btn_remove_day.clicked.connect(self.remove_day)
 
         self.r3_layout = QtWidgets.QHBoxLayout()
 
@@ -71,14 +74,18 @@ class ProjectSetup(QtWidgets.QMainWindow):
 ### ETAPE 3 rows 5, 6 et 7
         self.e3_r5_lab_instruction = QtWidgets.QLabel("3_ Repartir les cartes detectées entre les jours de tournage")
 
-        self.e3_r6_lw_day_selection = QtWidgets.QListWidget()
-        self.e3_r6_lw_day_selection.setMaximumSize(120,60)
+      #  self.e3_r6_lw_day_selection = QtWidgets.QListWidget()
+      # self.e3_r6_lw_day_selection.setMaximumSize(120,60)
+        self.e3_r6_day_selected_label = QtWidgets.QLabel("Jour sélectionné: X")
+        self.e3_r6_day_selected_label.setMaximumWidth(150)
 
         self.e3_r6_lw_cards_from_day = QtWidgets.QListWidget()
         self.e3_r6_lw_cards_from_day.setMaximumSize(120,300)
 
         self.e3_r6_btn_add =QtWidgets.QPushButton("-->")
         self.e3_r6_btn_add.setMaximumWidth(150)
+        self.e3_r6_btn_add.clicked.connect(self.card_list_to_day_list)
+
         self.e3_r6_btn_remove =QtWidgets.QPushButton("<--")
         self.e3_r6_btn_remove.setMaximumWidth(150)
 
@@ -86,11 +93,11 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.e3_r6_lw_available_cards.setMaximumSize(120,300)
 
         self.e3_layout = QtWidgets.QGridLayout()
-        self.e3_layout.addWidget(self.e3_r6_lw_cards_from_day,1,0,2,1)
+        self.e3_layout.addWidget(self.e3_r6_lw_cards_from_day,1,2,2,1)
         self.e3_layout.addWidget(self.e3_r6_btn_add,1,1,1,1)
         self.e3_layout.addWidget(self.e3_r6_btn_remove,2,1,1,1)
-        self.e3_layout.addWidget(self.e3_r6_lw_day_selection,0,2,1,1)
-        self.e3_layout.addWidget(self.e3_r6_lw_available_cards,1,2,2,1)
+        self.e3_layout.addWidget(self.e3_r6_day_selected_label,0,2,1,1)
+        self.e3_layout.addWidget(self.e3_r6_lw_available_cards,1,0,2,1)
 
         self.main_layout.addWidget(self.e3_r5_lab_instruction)
         self.main_layout.addLayout(self.e3_layout)
@@ -118,6 +125,40 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.resize(800, 600)
 
 ### FUNCTIONS
+    def card_list_to_day_list(self):
+        selected_day_number = int(self.e2_r3_lw_days_created.selectedItems()[0].text()[0])
+        if self.e3_r6_lw_available_cards.count():
+            selected_card = self.e3_r6_lw_available_cards.selectedItems()[0].text()
+            self.current_project.available_cards_list.remove(selected_card)
+            self.refresh_available_cards()
+
+            day = self.current_project.get_shooting_day(selected_day_number)
+            day.get("cards").append(selected_card)
+
+        self.show_cards_from_day(selected_day_number)
+
+
+
+    def show_cards_from_day(self, day_number):
+        self.e3_r6_lw_cards_from_day.clear()
+        d = self.current_project.get_shooting_day(day_number)
+        for card in d.get("cards"):
+            self.e3_r6_lw_cards_from_day.addItem(card)
+
+    def refresh_card_menu(self):
+        selected_item = self.e2_r3_lw_days_created.selectedItems()
+        if selected_item:
+            d = int(selected_item[0].text()[0])
+            self.e3_r6_day_selected_label.setText(f"Jour selectionné: {d}")
+        self.refresh_available_cards()
+        self.show_cards_from_day(d)
+
+    def refresh_available_cards(self):
+            self.e3_r6_lw_available_cards.clear()
+            for item in self.current_project.available_cards_list:
+                self.e3_r6_lw_available_cards.addItem(f"{item}")
+
+
     def add_shooting_day(self):
        # On récupère la date du calendrier
        day = self.e2_r3_cal_date_creation_calendar.date().day()
@@ -137,15 +178,46 @@ class ProjectSetup(QtWidgets.QMainWindow):
             self.e2_r3_lw_days_created.addItem(f"{item['number']}:{item['day']}/{item['month']}/{item['year']}")
 
 
+    def remove_day(self):
+        selected_item = self.e2_r3_lw_days_created.selectedItems()
+        if not selected_item:
+            return
+        day_number_to_remove = int(selected_item[0].text()[0])
+        i = len(self.current_project.shooting_days) - 1
+        while i >= 0:
+            d = self.current_project.shooting_days[i]
+            print(d)
+            if d["number"] == day_number_to_remove:
+                del self.current_project.shooting_days[i]
+            i -= 1
+        self.e2_r3_lw_days_created.takeItem(self.e2_r3_lw_days_created.row(selected_item[0]))
+       # self.e2_r3_lw_days_created.setCurrentRow(0)
 
     def edit_report(self):
         if not self.current_project.shooting_days:
+            d = QtWidgets.QMessageBox(self)
+            d.setText("il faut créer au moins une journée")
+            d.show()
             return
-       #DEBUG
-        day = self.current_project.shooting_days[0]
 
-        for card in self.current_project.all_card_list:
-            day.get("cards").append(card)
+        if not self.current_project.csv_list:
+            d = QtWidgets.QMessageBox(self)
+            d.setText("il faut importer au moins csv")
+            d.show()
+            return
+
+        if  self.current_project.available_cards_list:
+            d = QtWidgets.QMessageBox(self)
+            d.setText("il reste des cartes non attribuées")
+            d.show()
+            return
+
+
+       #DEBUG
+     #   day = self.current_project.shooting_days[0]
+
+     #   for card in self.current_project.all_card_list:
+     #       day.get("cards").append(card)
        #DEBUG
 
         self.w = ReportWindow(current_project=self.current_project)
@@ -162,9 +234,10 @@ class ProjectSetup(QtWidgets.QMainWindow):
         self.current_project.csv_importer(path)
         self.e1_r1_lw_imported_csv.addItem(os.path.basename(path))
         self.e1_r1_lw_imported_csv.setCurrentRow(0)
-#DEBUG
-       # self.current_project.affichage_clips()
-#DEBUG
+        self.current_project.available_cards_list = self.current_project.all_card_list[:]
+
+
+
     def remove_csv(self):
         selected_item = self.e1_r1_lw_imported_csv.selectedItems()
         if not selected_item:
@@ -176,4 +249,6 @@ class ProjectSetup(QtWidgets.QMainWindow):
                 del self.current_project.clip_list[i]
             i -= 1
         self.e1_r1_lw_imported_csv.takeItem(self.e1_r1_lw_imported_csv.row(selected_item[0]))
+        self.current_project.refresh_all_card_list()
+        self.current_project.available_cards_list = self.current_project.all_card_list[:]
 
