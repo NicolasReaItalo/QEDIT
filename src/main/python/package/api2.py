@@ -290,7 +290,19 @@ class Rapport:
 
 
 
+    def export_report(self):
+        report = " "
 
+        for clip in self.clip_list:
+            report = report + f"*   {clip.name} : {clip.sequence}/{clip.shot}  prise: {clip.take} \n"
+            if clip.circled:
+                report = report + "    Cette prise est cerclée \n"
+            else:
+                report = report + "    Cette prise n'est pas cerclée \n"
+            report = report + f"     Remarque:  {clip.comment}\n"
+            report = report + "\n"
+
+        print(report)
 
 
 if __name__ == '__main__':

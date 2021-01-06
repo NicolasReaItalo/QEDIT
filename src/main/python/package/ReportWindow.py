@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 from PySide2 import QtWidgets, QtCore
 
@@ -169,7 +168,7 @@ class ReportWindow(QtWidgets.QMainWindow):
        ###DEBUG
         self.debug = QtWidgets.QPushButton("Debug")
         self.side_layout.addWidget(self.debug)
-        self.debug.clicked.connect(self.set_day_comment)
+        self.debug.clicked.connect(self.current_project.export_report)
 
 
         # LAYOUTS HIERARCHY
